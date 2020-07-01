@@ -2,7 +2,7 @@ import axios from "axios";
 require("dotenv").config();
 
 const axiosHelper = (query) => {
-  console.log("URL", process.env.FAUNADB_GRAPHQL_UR);
+  console.log("URL", process.env.FAUNADB_GRAPHQL_URL);
   console.log("SECRET", process.env.FAUNADB_SERVER_SECRET);
 
   return axios({
