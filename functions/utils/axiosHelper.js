@@ -7,7 +7,7 @@ const axiosHelper = (query) => {
 
   return axios({
     method: "POST",
-    url: process.env.FAUNADB_GRAPHQL_URL,
+    url: `${process.env.FAUNADB_GRAPHQL_URL || "https://graphql.fauna.com/graphql"}`,
     data: JSON.stringify({ query }),
     headers: {
       Authorization: `Bearer ${process.env.FAUNADB_SERVER_SECRET}`,
