@@ -1,4 +1,5 @@
 import axios from "axios";
+import { send } from "./utils/handleCallback";
 require("dotenv").config();
 
 exports.handler = (event, context, callback) => {
@@ -14,14 +15,6 @@ exports.handler = (event, context, callback) => {
     }
   }`;
 
-  // Send json response to the react client app
-  const send = (body) => {
-    callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(body),
-    });
-  };
-
   // Perform API call
   const getTodos = () => {
     axios({
@@ -32,8 +25,8 @@ exports.handler = (event, context, callback) => {
         Authorization: `Bearer ${process.env.FAUNADB_SERVER_SECRET}`,
       },
     })
-      .then((res) => send(res.data.data))
-      .catch((err) => send(err));
+      .then((res) => send(res.data.data, callback))
+      .catch((err) => send(err, callback));
   };
 
   // Make sure method is GET
