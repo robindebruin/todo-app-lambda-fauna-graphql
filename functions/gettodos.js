@@ -1,9 +1,10 @@
 import axios from "axios";
-import { send } from "./utils/handleCallback";
+import initCallback from "./utils/initCallback";
 require("dotenv").config();
 
 exports.handler = (event, context, callback) => {
   const URL = "https://graphql.fauna.com/graphql";
+  const handleCallback = initCallback(callback);
 
   const query = `query FindAllTodos {
     allTodos {
@@ -25,8 +26,8 @@ exports.handler = (event, context, callback) => {
         Authorization: `Bearer ${process.env.FAUNADB_SERVER_SECRET}`,
       },
     })
-      .then((res) => send(res.data.data, callback))
-      .catch((err) => send(err, callback));
+      .then((res) => handleCallback(res.data.data))
+      .catch((err) => handleCallback(err));
   };
 
   // Make sure method is GET
