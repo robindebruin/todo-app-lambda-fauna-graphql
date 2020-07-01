@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Todos() {
-  const fetchTodosSql = async () => {
-    // return (await fetch("http://localhost:9000/gettodosgql")).json();
-    return (await fetch("/.netlify/functions/gettodosgql")).json();
-  };
+  const [todos, setTodos] = useState<[any]>();
 
-  const handleOnClick = () => {
-    fetchTodosSql();
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  const fetchTodos = async () => {
+    const res = await (await fetch("/.netlify/functions/gettodos")).json();
+    console.log(res);
+    setTodos(res?.allTodos?.data);
   };
 
   return (
     <div>
-      hoi
-      <button onClick={() => handleOnClick()}>fetch todos</button>
+      <h1>hoi</h1>
+      <ul>
+        {todos?.map((todo) => (
+          <li key={todo?._id}>{todo?.title}</li>
+        ))}
+      </ul>
     </div>
   );
 }
