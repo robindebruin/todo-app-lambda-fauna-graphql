@@ -19,7 +19,9 @@ exports.handler = (event, context, callback) => {
   const getTodos = () => {
     axiosHelper({ query })
       .then((res) => handleCallback(res.data.data))
-      .catch((err) => handleCallback(err));
+      .catch((err) => {
+        handleCallback(err);
+      });
   };
 
   if (event.httpMethod == "GET") {
