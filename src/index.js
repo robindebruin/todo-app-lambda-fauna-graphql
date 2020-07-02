@@ -4,31 +4,17 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import ApolloClient from "apollo-boost";
-import { gql } from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 const client = new ApolloClient({
   uri: "/.netlify/functions/db-gateway",
 });
 
-client
-  .query({
-    query: gql`
-      query FindAllTodos {
-        allTodos {
-          data {
-            _id
-            title
-            completed
-          }
-        }
-      }
-    `,
-  })
-  .then((result) => console.log("result", result));
-
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

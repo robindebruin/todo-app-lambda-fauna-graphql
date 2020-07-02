@@ -1,5 +1,19 @@
 import React, { useEffect, useState, FC } from "react";
 import axios from "axios";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+
+const ALL_TODOS = gql`
+  {
+    allTodos {
+      data {
+        _id
+        title
+        completed
+      }
+    }
+  }
+`;
 
 const NewTodo: FC = () => {
   const [todo, setTodo] = useState("");
@@ -28,23 +42,16 @@ const NewTodo: FC = () => {
 };
 
 export default function Todos() {
-  const [todos, setTodos] = useState<[any]>();
+  const { loading, error, data } = useQuery(ALL_TODOS);
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
-  const fetchTodos = async () => {
-    const res = await (await fetch("/.netlify/functions/todos-read-all")).json();
-    console.log(res);
-    setTodos(res?.allTodos?.data);
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
   return (
     <div>
       <h1>hoi</h1>
       <ul>
-        {todos?.map((todo) => (
+        {data.allTodos.data.map((todo: any) => (
           <li key={todo?._id}>{todo?.title}</li>
         ))}
       </ul>
