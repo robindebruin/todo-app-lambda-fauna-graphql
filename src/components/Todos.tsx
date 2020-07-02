@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 import axios from "axios";
 
-const NewTodo = () => {
+const NewTodo: FC = () => {
   const [todo, setTodo] = useState("");
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
