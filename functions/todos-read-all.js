@@ -1,8 +1,6 @@
 import initCallback from "./utils/initCallback";
 import axiosHelper from "./utils/axiosHelper";
 
-require("dotenv").config();
-
 exports.handler = (event, context, callback) => {
   const handleCallback = initCallback(callback);
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const NewTodo = () => {
   const [todo, setTodo] = useState("");
@@ -9,7 +10,13 @@ const NewTodo = () => {
 
   const handleClick = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(todo);
+    axios({
+      method: "POST",
+      url: "/.netlify/functions/todos-update",
+      data: JSON.stringify({ title: todo }),
+    })
+      .then()
+      .catch((err) => alert(`update error: ${err}`));
   };
 
   return (
@@ -28,7 +35,7 @@ export default function Todos() {
   }, []);
 
   const fetchTodos = async () => {
-    const res = await (await fetch("/.netlify/functions/gettodos")).json();
+    const res = await (await fetch("/.netlify/functions/todos-read-all")).json();
     console.log(res);
     setTodos(res?.allTodos?.data);
   };
