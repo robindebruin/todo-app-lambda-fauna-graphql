@@ -5,11 +5,12 @@ const { default: initCallback } = require("./utils/initCallback");
 exports.handler = function (event, context, callback) {
   const handleCallback = initCallback(callback);
   const query = JSON.parse(event.body).query;
+  const variables = JSON.parse(event.body).variables;
 
   axios({
     method: "POST",
     url: `${process.env.FAUNADB_GRAPHQL_URL}`,
-    data: { query },
+    data: { query, variables },
     headers: {
       Authorization: `Bearer ${process.env.FAUNADB_SERVER_SECRET}`,
     },

@@ -1,48 +1,15 @@
 import React, { useEffect, useState, FC } from "react";
-import axios from "axios";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-
-const ALL_TODOS = gql`
-  {
-    allTodos {
-      data {
-        _id
-        title
-        completed
-      }
-    }
-  }
-`;
-
-const NewTodo: FC = () => {
-  const [todo, setTodo] = useState("");
-
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setTodo(event.currentTarget.value);
-  };
-
-  const handleClick = (event: React.FormEvent) => {
-    event.preventDefault();
-    axios({
-      method: "POST",
-      url: "/.netlify/functions/todos-update",
-      data: JSON.stringify({ title: todo }),
-    })
-      .then()
-      .catch((err) => alert(`update error: ${err}`));
-  };
-
-  return (
-    <form onSubmit={handleClick}>
-      <input value={todo} onChange={handleChange} />
-      <button onClick={handleClick}>add todo</button>
-    </form>
-  );
-};
+import { useQuery, useMutation } from "@apollo/client";
+import NewTodo from "./NewTodo";
+import { ALL_TODOS, DELETE_TODO } from "../graphql/graphql";
 
 export default function Todos() {
   const { loading, error, data } = useQuery(ALL_TODOS);
+  const [deleteTodo] = useMutation(DELETE_TODO, { refetchQueries: [{ query: ALL_TODOS }] });
+
+  const handleDelete = (id: string) => {
+    deleteTodo({ variables: { id } });
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -52,7 +19,9 @@ export default function Todos() {
       <h1>hoi</h1>
       <ul>
         {data.allTodos.data.map((todo: any) => (
-          <li key={todo?._id}>{todo?.title}</li>
+          <li key={todo?._id}>
+            {todo?.title} <button onClick={() => handleDelete(todo._id)}>x</button>
+          </li>
         ))}
       </ul>
       <NewTodo />

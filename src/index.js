@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "/.netlify/functions/db-gateway",
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: "/.netlify/functions/db-gateway",
+  }),
 });
 
 ReactDOM.render(
