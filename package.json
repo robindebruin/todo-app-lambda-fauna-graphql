@@ -1,6 +1,6 @@
 {
-  "name": "todo-app-react-lambda-faunadb",
-  "version": "0.1.0",
+  "name": "crud-app-netlify-lambda-graphql-faunadb",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.0.0-rc.10",

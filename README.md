@@ -1,6 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Experimental
 
-## Available Scripts
+An experiment with React, Apollo-client, Netlify, Lamda's and FaunaDB's GraphQL api.
+
+### Available Scripts
 
 In the project directory, you can run:
 

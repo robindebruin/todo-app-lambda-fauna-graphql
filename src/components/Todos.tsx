@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC } from "react";
+import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import NewTodo from "./NewTodo";
 import { ALL_TODOS, DELETE_TODO } from "../graphql/graphql";
